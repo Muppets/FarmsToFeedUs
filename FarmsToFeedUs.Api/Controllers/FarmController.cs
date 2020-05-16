@@ -1,6 +1,5 @@
-﻿using FarmsToFeedUs.Api.Services;
+﻿using FarmsToFeedUs.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,20 +9,16 @@ namespace FarmsToFeedUs.Api.Controllers
     [Route("[controller]")]
     public class FarmController : ControllerBase
     {
-        private FarmImportService GoogleService { get; }
-
-        private ILogger<FarmController> Logger { get; }
-
-        public FarmController(FarmImportService googleService, ILogger<FarmController> logger)
-        {
-            GoogleService = googleService;
-            Logger = logger;
-        }
-
         [HttpGet]
-        public async Task<List<FarmData>> Get()
+        public Task<List<Farm>> Get()
         {
-            return await GoogleService.GetFarmData();
+            //var importData = await FarmDataService.GetFarmData();
+
+            //var postcode = await PostcodeService.GetPostcodeAsync("GU34 1JT");
+
+            //var meters = latLong.GetDistanceTo(new GeoCoordinate(51.150010, -0.974426));
+
+            return Task.FromResult(new List<Farm>());
         }
     }
 }
