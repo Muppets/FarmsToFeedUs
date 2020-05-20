@@ -1,0 +1,48 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Parameters:
+  Environment:
+    Type: String
+    Default: Dev
+    AllowedValues:
+      - Dev
+      - Prod
+  ReadCapacity:
+    Type: Number
+    Description: Read capacity for the DynamoDB tables.
+    Default: '1'
+    MinValue: 1
+  WriteCapacity:
+    Type: Number
+    Description: Write capacity for the DynamoDB tables.
+    Default: '1'
+    MinValue: 1
+Resources:
+  ImportService:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: FarmsToFeedUs.ImportService::FarmsToFeedUs.ImportService.Function::FunctionHandlerAsync
+      Runtime: dotnetcore3.1
+      CodeUri: ''
+      Description: Function to import farm data
+      MemorySize: 256
+      Timeout: 300
+      Policies:
+      - AWSLambdaFullAccess
+  FarmTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: 
+        Fn::Sub: ${Environment}-Farm
+      AttributeDefinitions:
+      - AttributeName: Name
+        AttributeType: S
+      KeySchema:
+      - AttributeName: Name
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits:
+          Ref: ReadCapacity
+        WriteCapacityUnits:
+          Ref: WriteCapacity

@@ -1,10 +1,12 @@
-﻿{
-  "profile": "default",
-  "region": "eu-west-1",
-  "configuration": "Release",
-  "framework": "netcoreapp3.1",
-  "function-runtime": "dotnetcore3.1",
-  "function-memory-size": 256,
-  "function-timeout": 300,
-  "function-handler": "FarmsToFeedUs.ImportService::FarmsToFeedUs.ImportService.Function::FunctionHandler"
+
+{
+    "profile" : "silvergames",
+    "region"  : "eu-west-1",
+    "configuration" : "Release",
+    "framework"     : "netcoreapp3.1",
+    "s3-prefix"     : "FarmsToFeedUs.ImportService/",
+    "template"      : "serverless.yaml",
+    "s3-bucket"     : "farmstofeedus-deployments",
+    "template-parameters" : "\"Environment\"=\"Dev\";\"ReadCapacity\"=\"1\";\"WriteCapacity\"=\"1\"",
+    "stack-name"          : "farmstofeedus-import"
 }

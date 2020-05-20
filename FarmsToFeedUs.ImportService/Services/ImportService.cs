@@ -71,12 +71,12 @@ namespace FarmsToFeedUs.ImportService.Services
         {
             PostcodeResult? postcodeLookup = null;
 
-            if (!string.IsNullOrWhiteSpace(importedFarm?.Postcode))
+            if (!string.IsNullOrWhiteSpace(importedFarm.Postcode))
                 postcodeLookup = await PostcodeService.GetPostcodeAsync(importedFarm.Postcode);
 
             return new Farm
             {
-                Name = importedFarm!.Name ?? "-- missing -- ",
+                Name = importedFarm.Name ?? "-- missing --",
                 Town = importedFarm.Town ?? "",
                 County = importedFarm.County ?? "",
                 Postcode = importedFarm.Postcode ?? "",

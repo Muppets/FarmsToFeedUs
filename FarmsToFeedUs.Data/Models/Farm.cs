@@ -3,7 +3,6 @@ using GeoCoordinatePortable;
 
 namespace FarmsToFeedUs.Data
 {
-    [DynamoDBTable("Farm")]
     public class Farm
     {
         [DynamoDBHashKey]

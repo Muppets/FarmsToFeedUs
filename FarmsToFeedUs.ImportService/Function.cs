@@ -1,5 +1,5 @@
-﻿using Amazon.DynamoDBv2;
-using Amazon.Lambda.Core;
+﻿using Amazon.Lambda.Core;
+using FarmsToFeedUs.Data;
 using FarmsToFeedUs.ImportService.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -13,16 +13,19 @@ namespace FarmsToFeedUs.ImportService
     public class Function
     {
         // dotnet lambda deploy-function FarmsToFeedUs.ImportService --msbuild-parameters "/p:PublishReadyToRun=true --self-contained false"
+        // dotnet lambda deploy-serverless
 
         private IServiceProvider ServiceProvider { get; }
 
-        public Function()
+        public Function() : this(new ServiceCollection())
         {
-            var serviceCollection = new ServiceCollection();
+        }
 
-            ConfigureServices(serviceCollection);
+        public Function(IServiceCollection services)
+        {
+            ConfigureServices(services);
 
-            ServiceProvider = serviceCollection.BuildServiceProvider();
+            ServiceProvider = services.BuildServiceProvider();
         }
 
         private void ConfigureServices(IServiceCollection services)
@@ -30,11 +33,12 @@ namespace FarmsToFeedUs.ImportService
             services.AddHttpClient<IPostcodeService, PostcodeIOHttpClient>();
 
             services.AddSingleton<IFarmDataService, FarmDataService>();
+            services.AddSingleton<IImportService, Services.ImportService>();
 
-            services.AddAWSService<IAmazonDynamoDB>();
+            services.AddData();
         }
 
-        public async Task FunctionHandler(ILambdaContext context)
+        public async Task FunctionHandlerAsync(ILambdaContext context)
         {
             context.Logger.LogLine($"Beginning import service");
 
