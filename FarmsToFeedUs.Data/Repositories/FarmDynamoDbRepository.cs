@@ -21,19 +21,19 @@ namespace FarmsToFeedUs.Data
             return (await asyncScan.GetRemainingAsync()).ToList();
         }
 
-        public Task CreateAsync(Farm farm)
+        public async Task CreateAsync(Farm farm)
         {
-            throw new System.NotImplementedException();
+            await DynamoDBContext.SaveAsync(farm);
         }
 
-        public Task UpdateAsync(Farm updatedFarm)
+        public async Task UpdateAsync(Farm farm)
         {
-            throw new System.NotImplementedException();
+            await DynamoDBContext.SaveAsync(farm);
         }
 
-        public Task DeleteAsync(Farm dbFarm)
+        public async Task DeleteAsync(Farm farm)
         {
-            throw new System.NotImplementedException();
+            await DynamoDBContext.DeleteAsync(farm);
         }
     }
 }

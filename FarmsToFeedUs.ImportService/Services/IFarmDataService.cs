@@ -74,5 +74,10 @@ namespace FarmsToFeedUs.ImportService.Services
         // Can you tell us what produce you envisage being in ample supply and in shorter supply than usual in the next weeks and months?   
         [Index(15)]
         public string? AmpleSupply { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

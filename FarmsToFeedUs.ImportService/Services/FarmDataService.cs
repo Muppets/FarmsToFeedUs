@@ -43,6 +43,8 @@ namespace FarmsToFeedUs.ImportService.Services
                 farm.AmpleSupply = CleanField(farm.AmpleSupply);
             }
 
+            MergeDuplicates(farms);
+
             return farms;
         }
 
@@ -78,5 +80,44 @@ namespace FarmsToFeedUs.ImportService.Services
 
             return value;
         }
+
+        private void MergeDuplicates(List<FarmData> farms)
+        {
+            // Some rows are duplicated, merge them together to 
+            // get the most information into a single record
+
+            var duplicateNames = farms.GroupBy(f => f.Name)
+                                  .Where(g => g.Count() > 1)
+                                  .ToDictionary(g => g.Key, g => g.ToList());
+
+            foreach (var duplicateName in duplicateNames)
+            {
+                FarmData merged = duplicateName.Value.First();
+
+                foreach (var duplicate in duplicateName.Value.Skip(1))
+                {
+                    merged.Postcode = MostValuable(merged.Postcode, duplicate.Postcode);
+                    merged.Town = MostValuable(merged.Town, duplicate.Town);
+                    merged.County = MostValuable(merged.County, duplicate.County);
+                    merged.SocialMedia = MostValuable(merged.SocialMedia, duplicate.SocialMedia);
+                    merged.Product = MostValuable(merged.Product, duplicate.Product);
+                    merged.Feature = MostValuable(merged.Feature, duplicate.Feature);
+                    merged.Website = MostValuable(merged.Website, duplicate.Website);
+                    merged.OnlineOrdering = MostValuable(merged.OnlineOrdering, duplicate.OnlineOrdering);
+                    merged.Delivery = MostValuable(merged.Delivery, duplicate.Delivery);
+                    merged.AcceptingNewCustomers = MostValuable(merged.AcceptingNewCustomers, duplicate.AcceptingNewCustomers);
+                    merged.PickupHub = MostValuable(merged.PickupHub, duplicate.PickupHub);
+                    merged.PreferredAccess = MostValuable(merged.PreferredAccess, duplicate.PreferredAccess);
+                    merged.Contact = MostValuable(merged.Contact, duplicate.Contact);
+                    merged.NeedVolunteers = MostValuable(merged.NeedVolunteers, duplicate.NeedVolunteers);
+                    merged.AmpleSupply = MostValuable(merged.AmpleSupply, duplicate.AmpleSupply);
+
+                    farms.Remove(duplicate);
+                }
+            }
+        }
+
+        private string? MostValuable(string? source, string? additional)
+            => !string.IsNullOrWhiteSpace(source) ? source : additional;
     }
 }

@@ -4,7 +4,8 @@ namespace FarmsToFeedUs.ImportService.Services
 {
     public interface IPostcodeService
     {
-        Task<PostcodeResult> GetPostcodeAsync(string postcode);
+        Task<PostcodeResult?> GetPlaceAsync(string place);
+        Task<PostcodeResult?> GetPostcodeAsync(string postcode);
     }
 
     public class PostcodeResult

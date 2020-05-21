@@ -6,8 +6,8 @@ namespace FarmsToFeedUs.Data
     public interface IFarmRepository
     {
         Task<List<Farm>> ListAllAsync();
-        Task DeleteAsync(Farm dbFarm);
-        Task UpdateAsync(Farm updatedFarm);
+        Task DeleteAsync(Farm farm);
+        Task UpdateAsync(Farm farm);
         Task CreateAsync(Farm farm);
     }
 }

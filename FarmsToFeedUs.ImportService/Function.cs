@@ -2,6 +2,7 @@
 using FarmsToFeedUs.Data;
 using FarmsToFeedUs.ImportService.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
@@ -30,6 +31,20 @@ namespace FarmsToFeedUs.ImportService
 
         private void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging((logging) =>
+            {
+                logging.AddLambdaLogger(new LambdaLoggerOptions
+                {
+                    IncludeCategory = true,
+                    IncludeLogLevel = true,
+                    IncludeNewline = true,
+                    IncludeEventId = true,
+                    IncludeException = true
+                });
+                logging.AddDebug();
+                logging.SetMinimumLevel(LogLevel.Debug);
+            });
+
             services.AddHttpClient<IPostcodeService, PostcodeIOHttpClient>();
 
             services.AddSingleton<IFarmDataService, FarmDataService>();

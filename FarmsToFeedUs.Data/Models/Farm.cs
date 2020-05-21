@@ -11,11 +11,11 @@ namespace FarmsToFeedUs.Data
         [DynamoDBVersion]
         public int? VersionNumber { get; set; }
 
-        public string Town { get; set; } = "";
+        public string? Town { get; set; }
 
-        public string County { get; set; } = "";
+        public string? County { get; set; }
 
-        public string Postcode { get; set; } = "";
+        public string? Postcode { get; set; }
 
         public double? Latitude { get; set; }
 
@@ -23,5 +23,10 @@ namespace FarmsToFeedUs.Data
 
         [DynamoDBIgnore]
         public GeoCoordinate? Location => Latitude != null && Longitude != null ? new GeoCoordinate(Latitude.Value, Longitude.Value) : null;
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
