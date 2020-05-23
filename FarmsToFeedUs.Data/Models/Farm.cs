@@ -1,5 +1,4 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
-using GeoCoordinatePortable;
 
 namespace FarmsToFeedUs.Data
 {
@@ -21,8 +20,8 @@ namespace FarmsToFeedUs.Data
 
         public double? Longitude { get; set; }
 
-        [DynamoDBIgnore]
-        public GeoCoordinate? Location => Latitude != null && Longitude != null ? new GeoCoordinate(Latitude.Value, Longitude.Value) : null;
+        //[DynamoDBIgnore]
+        //public GeoCoordinate? Location => Latitude != null && Longitude != null ? new GeoCoordinate(Latitude.Value, Longitude.Value) : null;
 
         public override string ToString()
         {

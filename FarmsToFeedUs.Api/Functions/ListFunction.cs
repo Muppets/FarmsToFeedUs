@@ -6,8 +6,10 @@ using FarmsToFeedUs.Data;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 
@@ -30,20 +32,27 @@ namespace FarmsToFeedUs.Api
             services.AddData(Environment);
         }
 
-        public APIGatewayProxyResponse FunctionHandlerAsync(APIGatewayProxyRequest request)
+        public async Task<APIGatewayProxyResponse> FunctionHandlerAsync(APIGatewayProxyRequest request)
         {
             Logger.LogInformation($"Beginning list function");
 
-            var response = new APIGatewayProxyResponse
-            {
-                StatusCode = (int)HttpStatusCode.OK,
-                Body = JsonSerializer.Serialize("Hello"),
-                Headers = new Dictionary<string, string> { { "Content-Type", "application/json" } }
-            };
+            var respository = ServiceProvider.GetRequiredService<IFarmRepository>();
+
+            var list = await respository.ListAllAsync();
 
             Logger.LogInformation("Completed list function");
 
-            return response;
+            return CreateApiResponse(list.Take(1));
+        }
+
+        private static APIGatewayProxyResponse CreateApiResponse(object response)
+        {
+            return new APIGatewayProxyResponse
+            {
+                StatusCode = (int)HttpStatusCode.OK,
+                Body = JsonSerializer.Serialize(response),
+                Headers = new Dictionary<string, string> { { "Content-Type", "application/json" } }
+            };
         }
     }
 }
