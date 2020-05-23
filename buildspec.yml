@@ -16,5 +16,6 @@ phases:
 
 artifacts:
   name: client
+  base-directory: 'FarmsToFeedUs.Client/bin/Release/netstandard2.1/publish'
   files:
-    - 'FarmsToFeedUs.Client/bin/Release/netstandard2.1/publish/**/*'
+    - '**/*'
