@@ -12,7 +12,7 @@ phases:
       - dotnet test
       - dotnet lambda deploy-serverless --project-location "FarmsToFeedUs.Api" --msbuild-parameters "/p:PublishReadyToRun=true /p:PublishReadyToRunShowWarnings=true --self-contained false"
       - dotnet lambda deploy-serverless --project-location "FarmsToFeedUs.ImportService" --msbuild-parameters "/p:PublishReadyToRun=true /p:PublishReadyToRunShowWarnings=true --self-contained false"
-      - dotnet publish .\FarmsToFeedUs.Client\
+      - dotnet publish FarmsToFeedUs.Client
 
 artifacts:
   name: client
