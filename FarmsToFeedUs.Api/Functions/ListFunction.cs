@@ -6,7 +6,6 @@ using FarmsToFeedUs.Data;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -42,7 +41,7 @@ namespace FarmsToFeedUs.Api
 
             Logger.LogInformation("Completed list function");
 
-            return CreateApiResponse(list.Take(1));
+            return CreateApiResponse(list);
         }
 
         private static APIGatewayProxyResponse CreateApiResponse(object response)
