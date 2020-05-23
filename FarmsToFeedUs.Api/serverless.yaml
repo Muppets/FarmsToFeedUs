@@ -59,7 +59,6 @@ Resources:
         DefaultRootObject: index.html
         Enabled: true
         HttpVersion: http2
-        Compress: true
         Origins:
         - DomainName: !GetAtt 'S3BucketHtml.DomainName'
           Id: s3
@@ -76,3 +75,4 @@ Resources:
             Cookies:
               Forward: none
           ViewerProtocolPolicy: redirect-to-https
+          Compress: true
