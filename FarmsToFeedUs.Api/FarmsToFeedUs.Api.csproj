@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FarmsToFeedUs.Data\FarmsToFeedUs.Data.csproj" />
+    <ProjectReference Include="..\FarmsToFeedUs.Shared\FarmsToFeedUs.Shared.csproj" />
   </ItemGroup>
 
 </Project>

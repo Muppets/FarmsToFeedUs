@@ -3,9 +3,11 @@ using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
 using FarmsToFeedUs.Common;
 using FarmsToFeedUs.Data;
+using FarmsToFeedUs.Shared;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -38,10 +40,24 @@ namespace FarmsToFeedUs.Api
             var respository = ServiceProvider.GetRequiredService<IFarmRepository>();
 
             var list = await respository.ListAllAsync();
+            var farmModels = list.Select(f => GetFarmModel(f));
 
             Logger.LogInformation("Completed list function");
 
-            return CreateApiResponse(list);
+            return CreateApiResponse(farmModels);
+        }
+
+        private FarmModel GetFarmModel(Farm f)
+        {
+            return new FarmModel
+            {
+                Name = f.Name,
+                Town = f.Town,
+                County = f.County,
+                Postcode = f.Postcode,
+                Latitude = f.Latitude,
+                Longitude = f.Longitude,
+            };
         }
 
         private static APIGatewayProxyResponse CreateApiResponse(object response)
