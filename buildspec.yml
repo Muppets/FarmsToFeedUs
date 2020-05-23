@@ -16,6 +16,6 @@ phases:
 
 artifacts:
   name: /
-  base-directory: 'FarmsToFeedUs.Client/bin/Release/netstandard2.1/publish'
+  base-directory: 'FarmsToFeedUs.Client/bin/Release/netstandard2.1/publish/wwwroot'
   files:
     - '**/*'
