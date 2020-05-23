@@ -55,7 +55,7 @@ Resources:
         CustomErrorResponses:
         - ErrorCode: 403 # redirect all pages to index.html
           ResponseCode: 200
-          ResponsePagePath: 'index.html'
+          ResponsePagePath: '/index.html'
         DefaultRootObject: index.html
         Enabled: true
         HttpVersion: http2
