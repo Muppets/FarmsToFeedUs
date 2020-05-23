@@ -12,7 +12,7 @@ namespace FarmsToFeedUs.Common
         // dotnet lambda deploy-serverless --msbuild-parameters "/p:PublishReadyToRun=true --self-contained false" - Only works on linux
         // dotnet lambda deploy-serverless
 
-        protected IServiceProvider ServiceProvider { get; }
+        public IServiceProvider ServiceProvider { get; }
 
         protected RegionEndpoint RegionEndpoint { get; }
 
