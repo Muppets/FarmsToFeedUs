@@ -22,8 +22,14 @@ namespace FarmsToFeedUs.ImportService.Services
         {
             var farms = await GetRawDataFromGoogleAsync();
 
-            foreach (var farm in farms)
+            foreach (var farm in farms.ToList())
             {
+                if (string.IsNullOrWhiteSpace(farm.Name))
+                {
+                    farms.Remove(farm);
+                    continue;
+                }
+
                 // Clean the data
                 farm.Name = CleanField(farm.Name);
                 farm.Postcode = CleanField(farm.Postcode);

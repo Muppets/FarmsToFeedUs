@@ -1,4 +1,7 @@
-﻿using Amazon.Lambda.Core;
+﻿using Amazon;
+using Amazon.Extensions.NETCore.Setup;
+using Amazon.Lambda.Core;
+using Amazon.XRay.Recorder.Handlers.AwsSdk;
 using FarmsToFeedUs.Data;
 using FarmsToFeedUs.ImportService.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,7 +9,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
-// Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 
 namespace FarmsToFeedUs.ImportService
@@ -18,15 +20,33 @@ namespace FarmsToFeedUs.ImportService
 
         private IServiceProvider ServiceProvider { get; }
 
-        public Function() : this(new ServiceCollection())
+        private RegionEndpoint RegionEndpoint { get; }
+
+        private EnvironmentEnum Environment { get; }
+
+        private ILogger Logger { get; }
+
+        // Lambda constructor
+        public Function() : this(
+            RegionEndpoint.GetBySystemName(System.Environment.GetEnvironmentVariable("AWS_REGION")),
+            (EnvironmentEnum)Enum.Parse(typeof(EnvironmentEnum), System.Environment.GetEnvironmentVariable("Environment") ?? ""))
         {
+            AWSSDKHandler.RegisterXRayForAllServices();
         }
 
-        public Function(IServiceCollection services)
+        // Lambda / Test constructor
+        public Function(RegionEndpoint regionEndpoint, EnvironmentEnum environment)
         {
+            RegionEndpoint = regionEndpoint;
+            Environment = environment;
+
+            var services = new ServiceCollection();
+
             ConfigureServices(services);
 
             ServiceProvider = services.BuildServiceProvider();
+
+            Logger = ServiceProvider.GetRequiredService<ILogger<Function>>();
         }
 
         private void ConfigureServices(IServiceCollection services)
@@ -41,8 +61,11 @@ namespace FarmsToFeedUs.ImportService
                     IncludeEventId = true,
                     IncludeException = true
                 });
-                logging.AddDebug();
-                logging.SetMinimumLevel(LogLevel.Debug);
+
+                if (Environment == EnvironmentEnum.Localhost)
+                    logging.AddDebug();
+
+                logging.SetMinimumLevel(Environment == EnvironmentEnum.Live ? LogLevel.Information : LogLevel.Debug);
             });
 
             services.AddHttpClient<IPostcodeService, PostcodeIOHttpClient>();
@@ -50,17 +73,22 @@ namespace FarmsToFeedUs.ImportService
             services.AddSingleton<IFarmDataService, FarmDataService>();
             services.AddSingleton<IImportService, Services.ImportService>();
 
-            services.AddData();
+            services.AddDefaultAWSOptions(new AWSOptions
+            {
+                Region = RegionEndpoint
+            });
+
+            services.AddData(Environment);
         }
 
-        public async Task FunctionHandlerAsync(ILambdaContext context)
+        public async Task FunctionHandlerAsync()
         {
-            context.Logger.LogLine($"Beginning import service");
+            Logger.LogInformation($"Beginning import service");
 
             var service = ServiceProvider.GetRequiredService<IImportService>();
             await service.BeginAsync();
 
-            context.Logger.LogLine("Completed import service");
+            Logger.LogInformation("Completed import service");
         }
     }
 }

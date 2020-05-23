@@ -7,7 +7,7 @@ Parameters:
     Default: Dev
     AllowedValues:
       - Dev
-      - Prod
+      - Live
   ReadCapacity:
     Type: Number
     Description: Read capacity for the DynamoDB tables.
@@ -28,6 +28,10 @@ Resources:
       Description: Function to import farm data
       MemorySize: 256
       Timeout: 300
+      Tracing: Active
+      Environment:
+        Variables:
+          Environment: !Ref Environment
       Policies:
       - AWSLambdaFullAccess
   FarmTable:
