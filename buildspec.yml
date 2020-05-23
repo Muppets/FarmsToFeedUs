@@ -3,10 +3,11 @@ phases:
   install:
     runtime-versions:
       dotnet: 3.1
+  pre_build:
+    commands:
+      - dotnet tool install -g Amazon.Lambda.Tools
   build:
     commands:
-      - echo Build started on `date`
-      - dotnet tool install -g Amazon.Lambda.Tools
-      - dotnet tool update -g Amazon.Lambda.Tools
+      - dotnet test
       - dotnet lambda deploy-serverless --project-location "FarmsToFeedUs.Api" --msbuild-parameters "/p:PublishReadyToRun=true /p:PublishReadyToRunShowWarnings=true --self-contained false"
       - dotnet lambda deploy-serverless --project-location "FarmsToFeedUs.ImportService" --msbuild-parameters "/p:PublishReadyToRun=true /p:PublishReadyToRunShowWarnings=true --self-contained false"
