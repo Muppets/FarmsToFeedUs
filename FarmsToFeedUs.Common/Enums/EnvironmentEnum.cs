@@ -1,4 +1,4 @@
-﻿namespace FarmsToFeedUs.Data
+﻿namespace FarmsToFeedUs.Common
 {
     public enum EnvironmentEnum
     {

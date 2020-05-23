@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FarmsToFeedUs.ImportService
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FarmsToFeedUs.ImportService.Tests", "FarmsToFeedUs.ImportService.Tests\FarmsToFeedUs.ImportService.Tests.csproj", "{821940CB-C243-4DD0-8F5B-9243986D5EEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmsToFeedUs.Data", "FarmsToFeedUs.Data\FarmsToFeedUs.Data.csproj", "{0DED7FC2-F01E-48A7-BCDA-82B4F22499E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FarmsToFeedUs.Data", "FarmsToFeedUs.Data\FarmsToFeedUs.Data.csproj", "{0DED7FC2-F01E-48A7-BCDA-82B4F22499E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmsToFeedUs.Common", "FarmsToFeedUs.Common\FarmsToFeedUs.Common.csproj", "{BBF88619-117E-4165-ACF1-E2B95E906105}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{0DED7FC2-F01E-48A7-BCDA-82B4F22499E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DED7FC2-F01E-48A7-BCDA-82B4F22499E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DED7FC2-F01E-48A7-BCDA-82B4F22499E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBF88619-117E-4165-ACF1-E2B95E906105}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBF88619-117E-4165-ACF1-E2B95E906105}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBF88619-117E-4165-ACF1-E2B95E906105}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBF88619-117E-4165-ACF1-E2B95E906105}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

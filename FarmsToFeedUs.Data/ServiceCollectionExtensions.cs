@@ -1,6 +1,7 @@
 ﻿using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
+using FarmsToFeedUs.Common;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FarmsToFeedUs.Data
