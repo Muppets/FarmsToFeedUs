@@ -34,6 +34,11 @@ Resources:
           Environment: !Ref Environment
       Policies:
       - AWSLambdaFullAccess
+      Events:
+        Timer:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 hour)
   FarmTable:
     Type: AWS::DynamoDB::Table
     Properties:
