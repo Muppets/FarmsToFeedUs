@@ -15,7 +15,7 @@ phases:
       - dotnet publish FarmsToFeedUs.Client --configuration Release
 
 artifacts:
-  name: client
+  name: /
   base-directory: 'FarmsToFeedUs.Client/bin/Release/netstandard2.1/publish'
   files:
-    - './**/*'
+    - '**/*'
