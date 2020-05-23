@@ -55,10 +55,11 @@ Resources:
         CustomErrorResponses:
         - ErrorCode: 403 # not found
           ResponseCode: 404
-          ResponsePagePath: '/error'
+          ResponsePagePath: '/404'
         DefaultRootObject: index.html
         Enabled: true
         HttpVersion: http2
+        Compress: true
         Origins:
         - DomainName: !GetAtt 'S3BucketHtml.DomainName'
           Id: s3

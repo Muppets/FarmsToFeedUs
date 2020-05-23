@@ -1,4 +1,5 @@
 version: 0.2
+
 phases:
   install:
     runtime-versions:
@@ -12,7 +13,8 @@ phases:
       - dotnet lambda deploy-serverless --project-location "FarmsToFeedUs.Api" --msbuild-parameters "/p:PublishReadyToRun=true /p:PublishReadyToRunShowWarnings=true --self-contained false"
       - dotnet lambda deploy-serverless --project-location "FarmsToFeedUs.ImportService" --msbuild-parameters "/p:PublishReadyToRun=true /p:PublishReadyToRunShowWarnings=true --self-contained false"
       - dotnet publish .\FarmsToFeedUs.Client\
-  artifacts:
-    name: client
-    files:
-      - 'FarmsToFeedUs.Client/bin/Release/netstandard2.1/publish/**/*'
+
+artifacts:
+  name: client
+  files:
+    - 'FarmsToFeedUs.Client/bin/Release/netstandard2.1/publish/**/*'
