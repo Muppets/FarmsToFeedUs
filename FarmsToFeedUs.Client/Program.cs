@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+﻿using AspNetMonsters.Blazor.Geolocation;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
@@ -17,6 +18,8 @@ namespace FarmsToFeedUs.Client
                 builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri("https://p0zchzjvj9.execute-api.eu-west-1.amazonaws.com/") });
             else
                 builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
+            builder.Services.AddSingleton<LocationService>();
 
             await builder.Build().RunAsync();
         }

@@ -1,7 +1,65 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+@using FarmsToFeedUs.Shared 
+@using AspNetMonsters.Blazor.Geolocation
 
-Welcome to your new app.
+@inject HttpClient Http
+@inject LocationService  LocationService
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<h1>Farms</h1>
+
+<h3>Filter to near me</h3>
+
+<button class="btn btn-primary" type="submit">Button</button>
+<button class="btn btn-primary" type="submit" @onclick="GetLocationAsync"><span class="oi oi-location" data-glyph="location"></span></button>
+
+<div>
+Lat: @location?.Latitude <br/>
+Long: @location?.Longitude <br />
+Accuracy: @location?.Accuracy <br />
+</div>
+
+@if (farms == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Town</th>
+                <th>County</th>
+                <th>Postcode</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var farm in farms)
+            {
+                <tr>
+                    <td>@farm.Name</td>
+                    <td>@farm.Town</td>
+                    <td>@farm.County</td>
+                    <td>@farm.Postcode</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code 
+{
+    private Location location;
+    private List<FarmModel> farms;
+
+    protected override async Task OnInitializedAsync()
+    {
+        farms = await Http.GetFromJsonAsync<List<FarmModel>>("farms");
+    }
+
+    private async Task GetLocationAsync()
+    {
+        location = await LocationService.GetLocationAsync();
+    }
+}
