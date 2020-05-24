@@ -9,7 +9,17 @@ Parameters:
       - Dev
       - Live
 Resources:
-  ListApi:
+  ListHttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      CorsConfiguration:
+        AllowOrigins:
+          - "https://localhost:5001"
+        AllowHeaders:
+          - "*"
+        AllowMethods:
+          - GET
+  ListFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: FarmsToFeedUs.Api::FarmsToFeedUs.Api.ListFunction::FunctionHandlerAsync
@@ -28,6 +38,7 @@ Resources:
         HttpApiEvent:
           Type: HttpApi
           Properties:
+            ApiId: !Ref ListHttpApi
             Path: /farms
             Method: GET
   S3BucketHtml:
