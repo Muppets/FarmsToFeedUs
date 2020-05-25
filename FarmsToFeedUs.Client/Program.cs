@@ -15,7 +15,7 @@ namespace FarmsToFeedUs.Client
             builder.RootComponents.Add<App>("app");
 
             if (builder.HostEnvironment.IsDevelopment())
-                builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri("https://p0zchzjvj9.execute-api.eu-west-1.amazonaws.com/") });
+                builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri("https://y1aexdaik0.execute-api.eu-west-1.amazonaws.com") });
             else
                 builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 

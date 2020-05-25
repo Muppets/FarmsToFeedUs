@@ -10,6 +10,7 @@ namespace FarmsToFeedUs.ImportService.Tests
     public class FarmDataServiceTests
     {
         [Fact]
+        [Trait("Category", "Integration")]
         public async Task GetFarmDataAsync()
         {
             var services = new ServiceCollection();

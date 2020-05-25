@@ -7,20 +7,20 @@ namespace FarmsToFeedUs.ImportService.Services
 {
     public class ImportService : IImportService
     {
-        public ImportService(IFarmRepository farmRepository, IFarmDataService farmDataService, IPostcodeService postcodeService, ILogger<ImportService> logger)
+        public ImportService(IFarmRepository farmRepository, IFarmDataService farmDataService, IFarmDataToFarmService farmDataToFarmService, ILogger<ImportService> logger)
         {
             FarmRepository = farmRepository;
             FarmDataService = farmDataService;
-            PostcodeService = postcodeService;
+            FarmDataToFarmService = farmDataToFarmService;
             Logger = logger;
         }
 
         private IFarmRepository FarmRepository { get; }
         private IFarmDataService FarmDataService { get; }
-        private IPostcodeService PostcodeService { get; }
+        private IFarmDataToFarmService FarmDataToFarmService { get; }
         private ILogger Logger { get; }
 
-        public async Task BeginAsync()
+        public async Task BeginAsync(bool forceUpdate = false)
         {
             var importedFarms = await FarmDataService.GetFarmDataAsync();
             var dbFarms = await FarmRepository.ListAllAsync();
@@ -34,7 +34,7 @@ namespace FarmsToFeedUs.ImportService.Services
                 if (dbFarm == null)
                     await CreateFarmAsync(importedFarm);
                 else
-                    await UpdateFarmAsync(importedFarm, dbFarm);
+                    await UpdateFarmAsync(importedFarm, dbFarm, forceUpdate);
             }
 
             foreach (var dbFarm in dbFarms.Where(f => !importedFarms.Any(i => i.Name == f.Name)))
@@ -51,13 +51,13 @@ namespace FarmsToFeedUs.ImportService.Services
 
             Logger.LogInformation($"Creating farm \"{farmData.Name}\"");
 
-            var dbFarm = await MakeFarmFromFarmDataAsync(farmData);
+            var dbFarm = await FarmDataToFarmService.MakeFarmFromFarmDataAsync(farmData);
             await FarmRepository.CreateAsync(dbFarm);
         }
 
-        private async Task UpdateFarmAsync(FarmData farmData, Farm dbFarm)
+        private async Task UpdateFarmAsync(FarmData farmData, Farm dbFarm, bool forceUpdate)
         {
-            if (IsDifferent(farmData, dbFarm))
+            if (IsDifferent(farmData, dbFarm) || forceUpdate)
             {
                 // Require a minimum of a name
                 if (string.IsNullOrWhiteSpace(farmData.Name))
@@ -65,7 +65,7 @@ namespace FarmsToFeedUs.ImportService.Services
 
                 Logger.LogInformation($"Updating farm \"{farmData.Name}\"");
 
-                var updatedFarm = await MakeFarmFromFarmDataAsync(farmData);
+                var updatedFarm = await FarmDataToFarmService.MakeFarmFromFarmDataAsync(farmData);
 
                 // Mark it as an update of the existing db record
                 updatedFarm.VersionNumber = dbFarm.VersionNumber;
@@ -88,30 +88,5 @@ namespace FarmsToFeedUs.ImportService.Services
                    farmData.County != dbFarm.County ||
                    farmData.Postcode != dbFarm.Postcode;
         }
-
-        private async Task<Farm> MakeFarmFromFarmDataAsync(FarmData importedFarm)
-        {
-            PostcodeResult? postcodeLookup = null;
-
-            if (!string.IsNullOrWhiteSpace(importedFarm.Postcode))
-                postcodeLookup = await PostcodeService.GetPostcodeAsync(importedFarm.Postcode);
-
-            if (postcodeLookup == null && !string.IsNullOrWhiteSpace(importedFarm.Town))
-                postcodeLookup = await PostcodeService.GetPlaceAsync(importedFarm.Town);
-
-            if (postcodeLookup == null && !string.IsNullOrWhiteSpace(importedFarm.County))
-                postcodeLookup = await PostcodeService.GetPlaceAsync(importedFarm.County);
-
-            return new Farm
-            {
-                Name = importedFarm.Name ?? "-- missing --",
-                Town = importedFarm.Town,
-                County = importedFarm.County,
-                Postcode = importedFarm.Postcode,
-                Latitude = postcodeLookup?.Latitude,
-                Longitude = postcodeLookup?.Longitude
-            };
-        }
-
     }
 }

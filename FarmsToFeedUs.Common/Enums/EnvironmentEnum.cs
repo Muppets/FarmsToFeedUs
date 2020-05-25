@@ -2,7 +2,6 @@
 {
     public enum EnvironmentEnum
     {
-        Localhost,
         Dev,
         Live
     }

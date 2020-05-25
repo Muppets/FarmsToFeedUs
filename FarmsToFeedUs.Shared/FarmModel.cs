@@ -14,6 +14,10 @@
 
         public double? Longitude { get; set; }
 
+        public string? Website { get; set; }
+
+        public string? Instagram { get; set; }
+
         public override string ToString()
         {
             return Name;

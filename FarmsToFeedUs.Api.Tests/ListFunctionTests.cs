@@ -12,9 +12,10 @@ namespace FarmsToFeedUs.Api.Tests
     public class ListFunctionTests
     {
         [Fact]
+        [Trait("Category", "Integration")]
         public async Task TestFunction()
         {
-            var function = new ListFunction(RegionEndpoint.EUWest1, EnvironmentEnum.Localhost);
+            var function = new ListFunction(RegionEndpoint.EUWest1, EnvironmentEnum.Dev);
             var response = await function.FunctionHandlerAsync(new Amazon.Lambda.APIGatewayEvents.APIGatewayProxyRequest { });
 
             var repository = function.ServiceProvider.GetRequiredService<IFarmRepository>();

@@ -58,7 +58,7 @@ namespace FarmsToFeedUs.Common
                     IncludeException = true
                 });
 
-                if (Environment == EnvironmentEnum.Localhost)
+                if (Environment == EnvironmentEnum.Dev)
                     logging.AddDebug();
 
                 logging.SetMinimumLevel(Environment == EnvironmentEnum.Live ? LogLevel.Information : LogLevel.Debug);

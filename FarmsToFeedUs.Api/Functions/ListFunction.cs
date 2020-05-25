@@ -57,6 +57,8 @@ namespace FarmsToFeedUs.Api
                 Postcode = f.Postcode,
                 Latitude = f.Latitude,
                 Longitude = f.Longitude,
+                Website = f.Website,
+                Instagram = f.Instagram,
             };
         }
 
