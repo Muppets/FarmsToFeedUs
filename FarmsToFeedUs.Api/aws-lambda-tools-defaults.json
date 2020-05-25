@@ -3,9 +3,9 @@
   "region": "eu-west-1",
   "configuration": "Release",
   "framework": "netcoreapp3.1",
-  "s3-prefix": "FarmsToFeedUs.Api/",
+  "s3-prefix": "Dev/FarmsToFeedUs.Api/",
   "template": "serverless.yaml",
   "s3-bucket": "farmstofeedus-deployments",
   "template-parameters": "\"Environment\"=\"Dev\"",
-  "stack-name": "farmstofeedus-api"
+  "stack-name": "farmstofeedus-api-dev"
 }

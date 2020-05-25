@@ -7,7 +7,7 @@ Parameters:
     Default: Dev
     AllowedValues:
       - Dev
-      - Live
+      - Prod
 Resources:
   ListHttpApi:
     Type: AWS::Serverless::HttpApi

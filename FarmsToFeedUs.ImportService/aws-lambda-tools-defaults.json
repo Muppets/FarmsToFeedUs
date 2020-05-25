@@ -3,9 +3,9 @@
   "region": "eu-west-1",
   "configuration": "Release",
   "framework": "netcoreapp3.1",
-  "s3-prefix": "FarmsToFeedUs.ImportService/",
+  "s3-prefix": "Dev/FarmsToFeedUs.ImportService/",
   "template": "serverless.yaml",
   "s3-bucket": "farmstofeedus-deployments",
   "template-parameters": "\"Environment\"=\"Dev\";\"ReadCapacity\"=\"1\";\"WriteCapacity\"=\"1\"",
-  "stack-name": "farmstofeedus-import"
+  "stack-name": "farmstofeedus-import-dev"
 }

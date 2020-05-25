@@ -7,7 +7,7 @@ Parameters:
     Default: Dev
     AllowedValues:
       - Dev
-      - Live
+      - Prod
   ReadCapacity:
     Type: Number
     Description: Read capacity for the DynamoDB tables.
