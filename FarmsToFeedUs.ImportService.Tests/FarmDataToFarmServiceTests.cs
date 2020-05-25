@@ -23,21 +23,21 @@ namespace FarmsToFeedUs.ImportService.Tests
         private IServiceProvider ServiceProvider { get; }
         private IFarmDataToFarmService FarmDataToFarmService { get; }
 
-        //[Fact]
-        //[Trait("Category", "Integration")]
-        //public async Task MakeFarmFromFarmDataAsync_TestAll()
-        //{
-        //    var farmDataService = ServiceProvider.GetRequiredService<IFarmDataService>();
+        [Fact]
+        [Trait("Category", "Integration")]
+        public async Task MakeFarmFromFarmDataAsync_TestAll()
+        {
+            var farmDataService = ServiceProvider.GetRequiredService<IFarmDataService>();
 
-        //    var farmDatas = await farmDataService.GetFarmDataAsync();
+            var farmDatas = await farmDataService.GetFarmDataAsync();
 
-        //    foreach (var farmData in farmDatas)
-        //    {
-        //        var farm = await FarmDataToFarmService.MakeFarmFromFarmDataAsync(farmData);
+            foreach (var farmData in farmDatas)
+            {
+                var farm = await FarmDataToFarmService.MakeFarmFromFarmDataAsync(farmData);
 
-        //        Assert.Equal(farmData.Name, farm.Name);
-        //    }
-        //}
+                Assert.Equal(farmData.Name, farm.Name);
+            }
+        }
 
         [Fact]
         [Trait("Category", "UnitTest")]

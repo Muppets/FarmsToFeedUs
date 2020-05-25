@@ -24,6 +24,8 @@ namespace FarmsToFeedUs.Data
 
         public string? Instagram { get; set; }
 
+        public string? Facebook { get; set; }
+
         //[DynamoDBIgnore]
         //public GeoCoordinate? Location => Latitude != null && Longitude != null ? new GeoCoordinate(Latitude.Value, Longitude.Value) : null;
 

@@ -35,7 +35,8 @@ namespace FarmsToFeedUs.ImportService.Services
                 Latitude = postcodeLookup?.Latitude,
                 Longitude = postcodeLookup?.Longitude,
                 Website = await ParseWebsiteAsync(farmData),
-                Instagram = await ParseInstagramAsync(farmData)
+                Instagram = await ParseInstagramAsync(farmData),
+                Facebook = await ParseFacebookAsync(farmData)
             };
         }
 
@@ -61,7 +62,7 @@ namespace FarmsToFeedUs.ImportService.Services
                 return null;
 
             var parts = farmData.SocialMedia.Split(' ', ',');
-            string? address = parts.FirstOrDefault(p => p.Contains("."));
+            string? address = parts.FirstOrDefault(p => p.Contains(".") && !p.Contains("facebook.com", StringComparison.OrdinalIgnoreCase));
 
             if (string.IsNullOrWhiteSpace(address))
                 return null;
@@ -116,6 +117,33 @@ namespace FarmsToFeedUs.ImportService.Services
                 var response = await HttpClient.GetAsync($"https://www.instagram.com/{handleWithoutAt}/");
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                     return handle;
+            }
+            catch (Exception)
+            {
+            }
+
+            return null;
+        }
+
+        private async Task<string?> ParseFacebookAsync(FarmData farmData)
+        {
+            if (string.IsNullOrEmpty(farmData.SocialMedia))
+                return null;
+
+            var parts = farmData.SocialMedia.Split(' ', ',');
+            string? url = parts.FirstOrDefault(p => p.Contains("facebook.com", StringComparison.OrdinalIgnoreCase));
+
+            if (string.IsNullOrWhiteSpace(url))
+                return null;
+
+            if (!url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                url = $"https://{url}";
+
+            try
+            {
+                var response = await HttpClient.GetAsync(url);
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    return url;
             }
             catch (Exception)
             {
