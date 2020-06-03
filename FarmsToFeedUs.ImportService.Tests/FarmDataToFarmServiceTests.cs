@@ -1,4 +1,5 @@
-﻿using FarmsToFeedUs.ImportService.Services;
+﻿using FarmsToFeedUs.Common;
+using FarmsToFeedUs.ImportService.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace FarmsToFeedUs.ImportService.Tests
             services.AddHttpClient<IPostcodeService, PostcodeIOHttpClient>();
             services.AddSingleton<IFarmDataService, FarmDataService>();
             services.AddSingleton<IFarmDataToFarmService, FarmDataToFarmService>();
+            services.AddCommonLogging(EnvironmentEnum.Dev);
 
             ServiceProvider = services.BuildServiceProvider();
             FarmDataToFarmService = ServiceProvider.GetRequiredService<IFarmDataToFarmService>();

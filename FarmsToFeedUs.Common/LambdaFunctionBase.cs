@@ -47,22 +47,7 @@ namespace FarmsToFeedUs.Common
 
         private void ConfigureServicesInternal(IServiceCollection services)
         {
-            services.AddLogging((logging) =>
-            {
-                logging.AddLambdaLogger(new LambdaLoggerOptions
-                {
-                    IncludeCategory = true,
-                    IncludeLogLevel = true,
-                    IncludeNewline = true,
-                    IncludeEventId = true,
-                    IncludeException = true
-                });
-
-                if (Environment == EnvironmentEnum.Dev)
-                    logging.AddDebug();
-
-                logging.SetMinimumLevel(Environment == EnvironmentEnum.Live ? LogLevel.Information : LogLevel.Debug);
-            });
+            services.AddCommonLogging(Environment);
 
             services.AddDefaultAWSOptions(new AWSOptions
             {
