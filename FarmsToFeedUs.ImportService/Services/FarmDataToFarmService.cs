@@ -75,11 +75,13 @@ namespace FarmsToFeedUs.ImportService.Services
             try
             {
                 var response = await HttpClient.GetAsync(httpsAddress);
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                    return httpsAddress;
+                response.EnsureSuccessStatusCode();
+
+                return httpsAddress;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.LogDebug(ex, $"Failed to query website on URL \"{httpsAddress}\" for farm \"{farmData.Name}\"");
             }
 
             if (!address.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
@@ -89,11 +91,13 @@ namespace FarmsToFeedUs.ImportService.Services
                 try
                 {
                     var response = await HttpClient.GetAsync(httpAddress);
-                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                        return httpAddress;
+                    response.EnsureSuccessStatusCode();
+
+                    return httpAddress;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Logger.LogDebug(ex, $"Failed to query website on URL \"{httpAddress}\" for farm \"{farmData.Name}\"");
                 }
             }
 
@@ -111,15 +115,19 @@ namespace FarmsToFeedUs.ImportService.Services
             if (string.IsNullOrWhiteSpace(handle) || !handle.StartsWith("@"))
                 return null;
 
+            var handleWithoutAt = handle.Substring(1);
+            var instagramUrl = $"https://www.instagram.com/{handleWithoutAt}/";
+
             try
             {
-                var handleWithoutAt = handle.Substring(1);
-                var response = await HttpClient.GetAsync($"https://www.instagram.com/{handleWithoutAt}/");
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                    return handle;
+                var response = await HttpClient.GetAsync(instagramUrl);
+                response.EnsureSuccessStatusCode();
+
+                return handle;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.LogDebug(ex, $"Failed to query instragram on URL \"{instagramUrl}\" for farm \"{farmData.Name}\"");
             }
 
             return null;
