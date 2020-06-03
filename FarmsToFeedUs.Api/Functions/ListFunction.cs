@@ -49,6 +49,11 @@ namespace FarmsToFeedUs.Api
 
         private FarmModel GetFarmModel(Farm f)
         {
+            string? instagramUrl = null;
+
+            if (!string.IsNullOrWhiteSpace(f.Instagram))
+                instagramUrl = $"https://www.instagram.com/{f.Instagram[1..]}/";
+
             return new FarmModel
             {
                 Name = f.Name,
@@ -57,8 +62,8 @@ namespace FarmsToFeedUs.Api
                 Postcode = f.Postcode,
                 Latitude = f.Latitude,
                 Longitude = f.Longitude,
-                Website = f.Website,
-                Instagram = f.Instagram,
+                WebsiteUrl = f.Website,
+                InstagramUrl = instagramUrl,
             };
         }
 
