@@ -64,6 +64,7 @@ namespace FarmsToFeedUs.Api
                 Longitude = f.Longitude,
                 WebsiteUrl = f.Website,
                 InstagramUrl = instagramUrl,
+                FacebookUrl = f.Facebook,
             };
         }
 
