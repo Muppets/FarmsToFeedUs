@@ -16,13 +16,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3766F010-92C0-4CEA-AB31-13E200E0EF15}"
 	ProjectSection(SolutionItems) = preProject
 		buildspec.yml = buildspec.yml
+		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FarmsToFeedUs.Api.Tests", "FarmsToFeedUs.Api.Tests\FarmsToFeedUs.Api.Tests.csproj", "{A306749E-B7FE-4655-9CB0-16A5AAA9D3FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmsToFeedUs.Client", "FarmsToFeedUs.Client\FarmsToFeedUs.Client.csproj", "{8C85EE15-BF0F-4145-9361-4B8F7943A132}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FarmsToFeedUs.Client", "FarmsToFeedUs.Client\FarmsToFeedUs.Client.csproj", "{8C85EE15-BF0F-4145-9361-4B8F7943A132}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmsToFeedUs.Shared", "FarmsToFeedUs.Shared\FarmsToFeedUs.Shared.csproj", "{991C6ACA-3C1F-43B4-8978-3A15710C416E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FarmsToFeedUs.Shared", "FarmsToFeedUs.Shared\FarmsToFeedUs.Shared.csproj", "{991C6ACA-3C1F-43B4-8978-3A15710C416E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
