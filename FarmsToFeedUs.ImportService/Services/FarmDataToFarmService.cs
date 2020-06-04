@@ -116,7 +116,7 @@ namespace FarmsToFeedUs.ImportService.Services
                 return null;
 
             var handleWithoutAt = handle.Substring(1);
-            var instagramUrl = $"https://www.instagram.com/{handleWithoutAt}/";
+            var instagramUrl = $"https://www.instagram.com/{handleWithoutAt}";
 
             try
             {

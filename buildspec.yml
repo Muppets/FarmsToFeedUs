@@ -9,7 +9,7 @@ phases:
       - dotnet tool install -g Amazon.Lambda.Tools
   build:
     commands:
-      - dotnet test --filter Category=UnitTest
+      - dotnet test
       - dotnet lambda deploy-serverless --project-location "FarmsToFeedUs.Api" --msbuild-parameters "/p:PublishReadyToRun=true /p:PublishReadyToRunShowWarnings=true --self-contained false"
       - dotnet lambda deploy-serverless --project-location "FarmsToFeedUs.ImportService" --msbuild-parameters "/p:PublishReadyToRun=true /p:PublishReadyToRunShowWarnings=true --self-contained false"
       - dotnet publish FarmsToFeedUs.Client --configuration Release
