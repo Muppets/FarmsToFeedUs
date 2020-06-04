@@ -35,7 +35,7 @@ namespace FarmsToFeedUs.ImportService.Services
                 Latitude = postcodeLookup?.Latitude,
                 Longitude = postcodeLookup?.Longitude,
                 Website = await ParseWebsiteAsync(farmData),
-                Instagram = await ParseInstagramAsync(farmData),
+                Instagram = ParseInstagram(farmData),
                 Facebook = await ParseFacebookAsync(farmData)
             };
         }
@@ -104,7 +104,7 @@ namespace FarmsToFeedUs.ImportService.Services
             return null;
         }
 
-        private async Task<string?> ParseInstagramAsync(FarmData farmData)
+        private string? ParseInstagram(FarmData farmData)
         {
             if (string.IsNullOrEmpty(farmData.SocialMedia))
                 return null;
@@ -115,22 +115,7 @@ namespace FarmsToFeedUs.ImportService.Services
             if (string.IsNullOrWhiteSpace(handle) || !handle.StartsWith("@"))
                 return null;
 
-            var handleWithoutAt = handle.Substring(1);
-            var instagramUrl = $"https://www.instagram.com/{handleWithoutAt}";
-
-            try
-            {
-                var response = await HttpClient.GetAsync(instagramUrl);
-                response.EnsureSuccessStatusCode();
-
-                return handle;
-            }
-            catch (Exception ex)
-            {
-                Logger.LogDebug(ex, $"Failed to query instragram on URL \"{instagramUrl}\" for farm \"{farmData.Name}\"");
-            }
-
-            return null;
+            return handle;
         }
 
         private async Task<string?> ParseFacebookAsync(FarmData farmData)

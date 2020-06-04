@@ -63,17 +63,7 @@ namespace FarmsToFeedUs.ImportService.Tests
 
         [Fact]
         [Trait("Category", "UnitTest")]
-        public async Task MakeFarmFromFarmDataAsync_Instagram_NotFound()
-        {
-            var farmData = new FarmData { SocialMedia = @"@lowercloptonfarmshoppton" };
-            var farm = await FarmDataToFarmService.MakeFarmFromFarmDataAsync(farmData);
-
-            Assert.Null(farm.Instagram);
-        }
-
-        [Fact]
-        [Trait("Category", "UnitTest")]
-        public async Task MakeFarmFromFarmDataAsync_Instagram_Found()
+        public async Task MakeFarmFromFarmDataAsync_Instagram()
         {
             var farmData = new FarmData { SocialMedia = @"www.learnlandleisure.com, @hillhousefarmdorking, www.facebook.com/hillhousefarmdorking" };
             var farm = await FarmDataToFarmService.MakeFarmFromFarmDataAsync(farmData);
