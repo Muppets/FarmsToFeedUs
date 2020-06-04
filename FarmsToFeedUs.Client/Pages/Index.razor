@@ -25,28 +25,48 @@ Accuracy: @location?.Accuracy <br />
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Town</th>
-                <th>County</th>
-                <th>Postcode</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var farm in farms)
-            {
-                <tr>
-                    <td>@farm.Name</td>
-                    <td>@farm.Town</td>
-                    <td>@farm.County</td>
-                    <td>@farm.Postcode</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+    @foreach (var farm in farms)
+    {
+        <div class="farm-container">
+                        
+            <div class="farm-cell">
+
+                <h3>@farm.Name</h3>
+
+                <div>
+                    @farm.Town<br/>
+                    @farm.County<br/>
+                    @farm.Postcode
+                </div>
+                
+                @if (!string.IsNullOrWhiteSpace(farm.InstagramUrl))
+                {
+                    <a href="@farm.InstagramUrl" target="_blank">
+                        <img src="img/instagram.png" class="instagram-icon" />
+                    </a>
+                }
+                
+                @if (!string.IsNullOrWhiteSpace(farm.FacebookUrl))
+                {
+                    <a href="@farm.FacebookUrl" target="_blank">
+                        <img src="img/facebook.png" class="facebook-icon" />
+                    </a>
+                }
+
+            </div>
+            
+            <div class="farm-cell">
+
+                @if (!string.IsNullOrWhiteSpace(farm.WebsiteUrl))
+                {
+                    <a href="@farm.WebsiteUrl" class="btn btn-primary" role="button" target="_blank">Visit Website</a>
+                }
+
+            </div>
+
+        </div>
+    }
+ }
 
 @code 
 {
