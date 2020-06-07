@@ -31,7 +31,7 @@ namespace FarmsToFeedUs.ImportService.Services
                 Name = farmData.Name ?? "-- missing --",
                 Town = farmData.Town ?? postcodeLookup?.Parish,
                 County = farmData.County ?? postcodeLookup?.AdminCounty,
-                Postcode = farmData.Postcode,
+                Postcode = ParsePostcode(farmData),
                 Latitude = postcodeLookup?.Latitude,
                 Longitude = postcodeLookup?.Longitude,
                 Website = await ParseWebsiteAsync(farmData),
@@ -56,9 +56,23 @@ namespace FarmsToFeedUs.ImportService.Services
             return postcodeLookup;
         }
 
+        private string? ParsePostcode(FarmData farmData)
+        {
+            if (string.IsNullOrWhiteSpace(farmData.Postcode))
+                return null;
+
+            var postcode = farmData.Postcode;
+
+            // Change PL132QE to PL13 2QE
+            if (farmData.Postcode.Length == 7)
+                postcode = postcode.Insert(4, " ");
+
+            return postcode;
+        }
+
         private async Task<string?> ParseWebsiteAsync(FarmData farmData)
         {
-            if (string.IsNullOrEmpty(farmData.SocialMedia))
+            if (string.IsNullOrWhiteSpace(farmData.SocialMedia))
                 return null;
 
             var parts = farmData.SocialMedia.Split(' ', ',');
@@ -106,7 +120,7 @@ namespace FarmsToFeedUs.ImportService.Services
 
         private string? ParseInstagram(FarmData farmData)
         {
-            if (string.IsNullOrEmpty(farmData.SocialMedia))
+            if (string.IsNullOrWhiteSpace(farmData.SocialMedia))
                 return null;
 
             var parts = farmData.SocialMedia.Split(' ', ',');
@@ -120,7 +134,7 @@ namespace FarmsToFeedUs.ImportService.Services
 
         private async Task<string?> ParseFacebookAsync(FarmData farmData)
         {
-            if (string.IsNullOrEmpty(farmData.SocialMedia))
+            if (string.IsNullOrWhiteSpace(farmData.SocialMedia))
                 return null;
 
             var parts = farmData.SocialMedia.Split(' ', ',');
