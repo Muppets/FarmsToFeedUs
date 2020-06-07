@@ -136,18 +136,14 @@ app {
     top: 0.5rem;
 }
 
-.farm-container {
-    display: table;
-    table-layout: fixed;
-    width: 100%;
-    min-height: 9em;
+.farm-container .card {
+    min-width: 300px;
+    max-width: 300px;
+    margin: 15px;
 }
 
-.farm-container .farm-cell {
-    padding: 10px;
-    border: 1px solid #3F639C;
-    border-width: 1px 1px 1px 0;
-    display: table-cell;
+.social-icons {
+    float: right;
 }
 
 .instagram-icon {

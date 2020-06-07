@@ -25,47 +25,60 @@ Accuracy: @location?.Accuracy <br />
 }
 else
 {
-    @foreach (var farm in farms)
-    {
-        <div class="farm-container">
-                        
-            <div class="farm-cell">
+    <div class="farm-container">
 
-                <h3>@farm.Name</h3>
+        <div class="card-deck text-center">
 
-                <div>
-                    @farm.Town<br/>
-                    @farm.County<br/>
-                    @farm.Postcode
+        @foreach (var farm in farms.Take(10))
+        {             
+            <div class="card box-shadow">
+
+                <div class="card-header">
+                    <h4>@farm.Name</h4>
                 </div>
+
+                <div class="card-body">
+                    
+                    <div class="social-icons">
+
+                        @if (!string.IsNullOrWhiteSpace(farm.InstagramUrl))
+                        {
+                            <a href="@farm.InstagramUrl" target="_blank">
+                                <img src="img/instagram.png" class="instagram-icon" />
+                            </a>
+                        }
                 
-                @if (!string.IsNullOrWhiteSpace(farm.InstagramUrl))
-                {
-                    <a href="@farm.InstagramUrl" target="_blank">
-                        <img src="img/instagram.png" class="instagram-icon" />
-                    </a>
-                }
-                
-                @if (!string.IsNullOrWhiteSpace(farm.FacebookUrl))
-                {
-                    <a href="@farm.FacebookUrl" target="_blank">
-                        <img src="img/facebook.png" class="facebook-icon" />
-                    </a>
-                }
+                        @if (!string.IsNullOrWhiteSpace(farm.FacebookUrl))
+                        {
+                            <a href="@farm.FacebookUrl" target="_blank">
+                                <img src="img/facebook.png" class="facebook-icon" />
+                            </a>
+                        }
 
+                    </div>
+                    
+                    <ul class="list-unstyled">
+                      <li>@farm.Town</li>
+                      <li>@farm.County</li>
+                      <li>@farm.Postcode</li>
+                    </ul>
+                    
+                    <div>
+
+                        @if (!string.IsNullOrWhiteSpace(farm.WebsiteUrl))
+                        {
+                            <a href="@farm.WebsiteUrl" class="btn btn-outline-primary" role="button" target="_blank">Visit Website</a>
+                        }
+
+                    </div>
+                    
+                </div>
+                   
             </div>
-            
-            <div class="farm-cell">
-
-                @if (!string.IsNullOrWhiteSpace(farm.WebsiteUrl))
-                {
-                    <a href="@farm.WebsiteUrl" class="btn btn-primary" role="button" target="_blank">Visit Website</a>
-                }
-
-            </div>
+        }
 
         </div>
-    }
+    </div>
  }
 
 @code 
