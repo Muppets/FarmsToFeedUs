@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FarmsToFeedUs.Client", "Far
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FarmsToFeedUs.Shared", "FarmsToFeedUs.Shared\FarmsToFeedUs.Shared.csproj", "{991C6ACA-3C1F-43B4-8978-3A15710C416E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FarmsToFeedUs.Data.Tests", "FarmsToFeedUs.Data.Tests\FarmsToFeedUs.Data.Tests.csproj", "{EF15CECC-EC71-4D56-86E3-4923E4A547D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{991C6ACA-3C1F-43B4-8978-3A15710C416E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{991C6ACA-3C1F-43B4-8978-3A15710C416E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{991C6ACA-3C1F-43B4-8978-3A15710C416E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF15CECC-EC71-4D56-86E3-4923E4A547D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF15CECC-EC71-4D56-86E3-4923E4A547D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF15CECC-EC71-4D56-86E3-4923E4A547D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF15CECC-EC71-4D56-86E3-4923E4A547D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

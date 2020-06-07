@@ -14,12 +14,11 @@ namespace FarmsToFeedUs.ImportService.Tests
         public ImportServiceTests()
         {
             var services = new ServiceCollection();
-            services.AddHttpClient();
+
+            services.AddData(Common.EnvironmentEnum.Dev);
             services.AddSingleton<IImportService, Services.ImportService>();
-            services.AddHttpClient<IPostcodeService, PostcodeIOHttpClient>();
             services.AddSingleton<IFarmDataService, FarmDataService>();
             services.AddSingleton<IFarmDataToFarmService, FarmDataToFarmService>();
-            services.AddData(Common.EnvironmentEnum.Dev);
 
             services.AddDefaultAWSOptions(new AWSOptions
             {
@@ -40,11 +39,11 @@ namespace FarmsToFeedUs.ImportService.Tests
             await ImportService.BeginAsync();
         }
 
-        //[Fact]
-        //[Trait("Category", "DataJob")]
-        //public async Task BeginAsync_ForceUpdateAllRecords()
-        //{
-        //    await ImportService.BeginAsync(forceUpdate: true);
-        //}
+        [Fact]
+        [Trait("Category", "DataJob")]
+        public async Task BeginAsync_ForceUpdateAllRecords()
+        {
+            await ImportService.BeginAsync(forceUpdate: true);
+        }
     }
 }

@@ -5,7 +5,6 @@ using FarmsToFeedUs.Common;
 using FarmsToFeedUs.Data;
 using FarmsToFeedUs.Shared;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -35,16 +34,25 @@ namespace FarmsToFeedUs.Api
 
         public async Task<APIGatewayProxyResponse> FunctionHandlerAsync(APIGatewayProxyRequest request)
         {
-            Logger.LogInformation($"Beginning list function");
+            if (!double.TryParse(request.QueryStringParameters["lat"], out var latitude) || !double.TryParse(request.QueryStringParameters["long"], out var longitude))
+                return CreateValidationResponse("Missing valid lat or long parameters");
+
+            var response = await ListFarmsByLatLongAsync(latitude, longitude);
+
+            return CreateApiResponse(response);
+        }
+
+        private async Task<List<FarmModel>> ListFarmsByLatLongAsync(double latitude, double longitude)
+        {
+            var postcodeService = ServiceProvider.GetRequiredService<IPostcodeService>();
+            var postcodeInfo = postcodeService.GetPostcodeInfoAsync(latitude, longitude);
 
             var respository = ServiceProvider.GetRequiredService<IFarmRepository>();
 
             var list = await respository.ListAllAsync();
             var farmModels = list.Select(f => GetFarmModel(f));
 
-            Logger.LogInformation("Completed list function");
-
-            return CreateApiResponse(farmModels);
+            return farmModels.ToList();
         }
 
         private FarmModel GetFarmModel(Farm f)
@@ -65,6 +73,16 @@ namespace FarmsToFeedUs.Api
                 WebsiteUrl = f.Website,
                 InstagramUrl = instagramUrl,
                 FacebookUrl = f.Facebook,
+            };
+        }
+
+        private static APIGatewayProxyResponse CreateValidationResponse(string message)
+        {
+            return new APIGatewayProxyResponse
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Body = JsonSerializer.Serialize(message),
+                Headers = new Dictionary<string, string> { { "Content-Type", "application/json" } }
             };
         }
 

@@ -12,6 +12,8 @@ namespace FarmsToFeedUs.Data
         {
             AWSConfigsDynamoDB.Context.TableNamePrefix = $"{environment}-";
 
+            services.AddHttpClient<IPostcodeService, PostcodeIOHttpClient>();
+
             services.AddAWSService<IAmazonDynamoDB>();
 
             services.AddTransient<IDynamoDBContext, DynamoDBContext>();

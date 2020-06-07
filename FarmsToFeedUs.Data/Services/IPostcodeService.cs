@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
 
-namespace FarmsToFeedUs.ImportService.Services
+namespace FarmsToFeedUs.Data
 {
     public interface IPostcodeService
     {
         Task<PostcodeResult?> GetPlaceAsync(string place);
-        Task<PostcodeResult?> GetPostcodeAsync(string postcode);
+        Task<PostcodeResult?> GetPostcodeInfoAsync(string postcode);
+        Task<PostcodeResult?> GetPostcodeInfoAsync(double latitude, double longitude);
     }
 
     public class PostcodeResult

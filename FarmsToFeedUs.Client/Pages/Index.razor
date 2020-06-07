@@ -10,13 +10,14 @@
 
 <h3>Filter to near me</h3>
 
-<button class="btn btn-primary" type="submit">Button</button>
-<button class="btn btn-primary" type="submit" @onclick="GetLocationAsync"><span class="oi oi-location" data-glyph="location"></span></button>
-
-<div>
-Lat: @location?.Latitude <br/>
-Long: @location?.Longitude <br />
-Accuracy: @location?.Accuracy <br />
+<div class="filter-location input-group">
+  <div class="input-group-prepend">
+    <button class="btn btn-primary" type="submit" @onclick="GetLocationAsync"><span class="oi oi-location" data-glyph="location"></span></button>
+  </div>
+  <input type="search" class="form-control" placeholder="Enter town or postcode" />
+  <div class="input-group-append">
+      <button class="btn btn-primary" type="submit">Search</button>
+  </div>
 </div>
 
 @if (farms == null)
@@ -83,7 +84,6 @@ else
 
 @code 
 {
-    private Location location;
     private List<FarmModel> farms;
 
     protected override async Task OnInitializedAsync()
@@ -93,6 +93,12 @@ else
 
     private async Task GetLocationAsync()
     {
-        location = await LocationService.GetLocationAsync();
+        var location = await LocationService.GetLocationAsync();
+
+        if (location != null)
+        {
+            var uri = $"farms?lat={location.Latitude}&long={location.Longitude}";
+            farms = await Http.GetFromJsonAsync<List<FarmModel>>(uri);
+        }
     }
 }

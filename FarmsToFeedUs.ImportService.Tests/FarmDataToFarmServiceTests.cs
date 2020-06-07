@@ -1,4 +1,5 @@
 ﻿using FarmsToFeedUs.Common;
+using FarmsToFeedUs.Data;
 using FarmsToFeedUs.ImportService.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -12,8 +13,7 @@ namespace FarmsToFeedUs.ImportService.Tests
         public FarmDataToFarmServiceTests()
         {
             var services = new ServiceCollection();
-            services.AddHttpClient();
-            services.AddHttpClient<IPostcodeService, PostcodeIOHttpClient>();
+            services.AddData(EnvironmentEnum.Dev);
             services.AddSingleton<IFarmDataService, FarmDataService>();
             services.AddSingleton<IFarmDataToFarmService, FarmDataToFarmService>();
             services.AddCommonLogging(EnvironmentEnum.Dev);

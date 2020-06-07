@@ -136,6 +136,10 @@ app {
     top: 0.5rem;
 }
 
+.filter-location {
+    width: 500px;
+}
+
 .farm-container .card {
     min-width: 300px;
     max-width: 300px;

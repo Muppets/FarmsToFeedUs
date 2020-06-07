@@ -25,8 +25,6 @@ namespace FarmsToFeedUs.ImportService
 
         protected override void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpClient<IPostcodeService, PostcodeIOHttpClient>();
-
             services.AddSingleton<IFarmDataService, FarmDataService>();
             services.AddSingleton<IImportService, Services.ImportService>();
 

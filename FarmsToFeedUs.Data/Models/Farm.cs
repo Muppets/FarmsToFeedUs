@@ -20,14 +20,13 @@ namespace FarmsToFeedUs.Data
 
         public double? Longitude { get; set; }
 
+        public long? GeoHash { get; set; }
+
         public string? Website { get; set; }
 
         public string? Instagram { get; set; }
 
         public string? Facebook { get; set; }
-
-        //[DynamoDBIgnore]
-        //public GeoCoordinate? Location => Latitude != null && Longitude != null ? new GeoCoordinate(Latitude.Value, Longitude.Value) : null;
 
         public override string ToString()
         {

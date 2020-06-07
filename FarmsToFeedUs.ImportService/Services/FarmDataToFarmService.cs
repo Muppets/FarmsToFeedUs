@@ -1,5 +1,6 @@
 ﻿using FarmsToFeedUs.Data;
 using Microsoft.Extensions.Logging;
+using NGeoHash;
 using System;
 using System.Linq;
 using System.Net.Http;
@@ -31,9 +32,10 @@ namespace FarmsToFeedUs.ImportService.Services
                 Name = farmData.Name ?? "-- missing --",
                 Town = farmData.Town ?? postcodeLookup?.Parish,
                 County = farmData.County ?? postcodeLookup?.AdminCounty,
-                Postcode = ParsePostcode(farmData),
+                Postcode = postcodeLookup?.Postcode ?? farmData.Postcode,
                 Latitude = postcodeLookup?.Latitude,
                 Longitude = postcodeLookup?.Longitude,
+                GeoHash = ParseGeoHash(postcodeLookup),
                 Website = await ParseWebsiteAsync(farmData),
                 Instagram = ParseInstagram(farmData),
                 Facebook = await ParseFacebookAsync(farmData)
@@ -45,7 +47,7 @@ namespace FarmsToFeedUs.ImportService.Services
             PostcodeResult? postcodeLookup = null;
 
             if (!string.IsNullOrWhiteSpace(farmData.Postcode))
-                postcodeLookup = await PostcodeService.GetPostcodeAsync(farmData.Postcode);
+                postcodeLookup = await PostcodeService.GetPostcodeInfoAsync(farmData.Postcode);
 
             if (postcodeLookup == null && !string.IsNullOrWhiteSpace(farmData.Town))
                 postcodeLookup = await PostcodeService.GetPlaceAsync(farmData.Town);
@@ -56,18 +58,14 @@ namespace FarmsToFeedUs.ImportService.Services
             return postcodeLookup;
         }
 
-        private string? ParsePostcode(FarmData farmData)
+        private long? ParseGeoHash(PostcodeResult? postcodeLookup)
         {
-            if (string.IsNullOrWhiteSpace(farmData.Postcode))
-                return null;
+            if (postcodeLookup?.Latitude != null && postcodeLookup?.Longitude != null)
+            {
+                return GeoHash.EncodeInt(postcodeLookup.Latitude.Value, postcodeLookup.Longitude.Value);
+            }
 
-            var postcode = farmData.Postcode;
-
-            // Change PL132QE to PL13 2QE
-            if (farmData.Postcode.Length == 7)
-                postcode = postcode.Insert(4, " ");
-
-            return postcode;
+            return null;
         }
 
         private async Task<string?> ParseWebsiteAsync(FarmData farmData)

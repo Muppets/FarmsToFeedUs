@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace FarmsToFeedUs.ImportService.Services
+namespace FarmsToFeedUs.Data
 {
     public class PostcodeIOHttpClient : IPostcodeService
     {
@@ -23,7 +23,7 @@ namespace FarmsToFeedUs.ImportService.Services
 
         private ILogger Logger { get; }
 
-        public async Task<PostcodeResult?> GetPostcodeAsync(string postcode)
+        public async Task<PostcodeResult?> GetPostcodeInfoAsync(string postcode)
         {
             try
             {
@@ -41,6 +41,29 @@ namespace FarmsToFeedUs.ImportService.Services
             catch (Exception ex)
             {
                 Logger.LogError(ex, $"Failed to get postcode details for \"{postcode}\"");
+            }
+
+            return null;
+        }
+
+        public async Task<PostcodeResult?> GetPostcodeInfoAsync(double latitude, double longitude)
+        {
+            try
+            {
+                var responseMessage = await Client.GetAsync($"postcodes?lon={longitude}&lat={latitude}");
+                responseMessage.EnsureSuccessStatusCode();
+
+                var json = await responseMessage.Content.ReadAsStringAsync();
+                var message = JsonSerializer.Deserialize<PostcodesMessage>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                if (message.Status != HttpStatusCode.OK)
+                    throw new Exception($"Failed to complete postcode look up status {message.Status} returned: {json}");
+
+                return message.Result.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, $"Failed to get postcode details for latitude \"{latitude}\" and longitude \"{longitude}\"");
             }
 
             return null;
@@ -73,6 +96,12 @@ namespace FarmsToFeedUs.ImportService.Services
         {
             public HttpStatusCode? Status { get; set; }
             public PostcodeResult Result { get; set; } = new PostcodeResult();
+        }
+
+        private class PostcodesMessage
+        {
+            public HttpStatusCode? Status { get; set; }
+            public List<PostcodeResult> Result { get; set; } = new List<PostcodeResult>();
         }
 
         private class PlaceMessage
