@@ -49,7 +49,7 @@ namespace FarmsToFeedUs.Api
 
             var respository = ServiceProvider.GetRequiredService<IFarmRepository>();
 
-            var list = await respository.ListAllAsync();
+            var list = await respository.ListByLatLongAsync(latitude, longitude);
             var farmModels = list.Select(f => GetFarmModel(f));
 
             return farmModels.ToList();

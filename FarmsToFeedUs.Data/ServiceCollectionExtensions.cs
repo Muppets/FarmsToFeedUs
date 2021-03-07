@@ -19,6 +19,7 @@ namespace FarmsToFeedUs.Data
             services.AddTransient<IDynamoDBContext, DynamoDBContext>();
 
             services.AddSingleton<IFarmRepository, FarmDynamoDbRepository>();
+            services.AddSingleton<IGeohashService, GeohashService>();
         }
     }
 }

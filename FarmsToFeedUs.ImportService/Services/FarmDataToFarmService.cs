@@ -1,6 +1,5 @@
 ﻿using FarmsToFeedUs.Data;
 using Microsoft.Extensions.Logging;
-using NGeoHash;
 using System;
 using System.Linq;
 using System.Net.Http;
@@ -10,9 +9,10 @@ namespace FarmsToFeedUs.ImportService.Services
 {
     public class FarmDataToFarmService : IFarmDataToFarmService
     {
-        public FarmDataToFarmService(IPostcodeService postcodeService, IHttpClientFactory httpClientFactory, ILogger<FarmDataToFarmService> logger)
+        public FarmDataToFarmService(IPostcodeService postcodeService, IHttpClientFactory httpClientFactory, IGeohashService geohashService, ILogger<FarmDataToFarmService> logger)
         {
             PostcodeService = postcodeService;
+            GeohashService = geohashService;
             Logger = logger;
 
             HttpClient = httpClientFactory.CreateClient();
@@ -21,6 +21,7 @@ namespace FarmsToFeedUs.ImportService.Services
 
         private IPostcodeService PostcodeService { get; }
         public HttpClient HttpClient { get; }
+        private IGeohashService GeohashService { get; }
         private ILogger Logger { get; }
 
         public async Task<Farm> MakeFarmFromFarmDataAsync(FarmData farmData)
@@ -62,7 +63,7 @@ namespace FarmsToFeedUs.ImportService.Services
         {
             if (postcodeLookup?.Latitude != null && postcodeLookup?.Longitude != null)
             {
-                return GeoHash.EncodeInt(postcodeLookup.Latitude.Value, postcodeLookup.Longitude.Value);
+                return GeohashService.Encode(postcodeLookup.Latitude.Value, postcodeLookup.Longitude.Value);
             }
 
             return null;
